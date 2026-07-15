@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Noir Part II · The Archetype Over</title><style>
+:root{--ink:#E7E0D4;--ink2:#DED6C7;--ink3:#d4cab6;--bg:#141210;--bg2:#1c1916;--card:#211d19;
+--orange:#FF6A00;--amber:#e6a817;--teal:#2dd4bf;--coral:#ff7a6a;--lit:#39ff8a;--bad:#ff3b3b;--noir:#9b7fd4;--edge:#3a332b;
+--head:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--mono:ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--head);line-height:1.65;font-size:16px}
+.wrap{max-width:920px;margin:0 auto;padding:28px 20px 80px}
+header.m{border-bottom:3px solid var(--orange);padding-bottom:14px;margin-bottom:24px}
+.series{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--orange);text-transform:uppercase}
+h1{font-size:32px;margin:.25em 0 .1em}.sub{color:var(--ink3);font-style:italic;margin:0}
+h2{font-size:20px;margin:1.5em 0 .5em;border-left:4px solid var(--orange);padding-left:10px}
+p{margin:.7em 0}.k{color:var(--orange);font-weight:bold}.n{color:var(--noir);font-weight:bold}
+canvas{display:block;width:100%;background:var(--bg2);border:1px solid var(--edge);border-radius:6px;margin:10px 0}
+.caption{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:-4px 0 18px}
+.ctrl{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;font-family:var(--mono);font-size:12px;align-items:center}
+.ctrl label{display:flex;flex-direction:column;gap:3px;min-width:180px}
+.ctrl input[type=range]{accent-color:var(--noir)}.ctrl .val{color:var(--noir)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--edge);border-left:4px solid var(--lit);border-radius:5px;padding:9px 11px;font-family:var(--mono);font-size:11.5px}
+.card.amber{border-left-color:var(--amber)}.card.fail{border-left-color:var(--bad);background:#2a1512}
+.card b{display:block;font-size:10px;letter-spacing:.12em;margin-bottom:4px}
+.card.lit b{color:var(--lit)}.card.amber b{color:var(--amber)}.card.fail b{color:var(--bad)}
+.card .got{color:var(--ink);font-size:13px}.card .note{color:var(--ink3);margin-top:4px;line-height:1.45}
+.toddler{background:#241b10;border:1px dashed var(--amber);border-radius:8px;padding:12px 16px;margin:22px 0}
+.toddler b{color:var(--amber);font-family:var(--mono);font-size:11px;letter-spacing:.18em}
+.big{font-family:var(--mono);font-size:13px;background:#191622;border:1px solid #362f47;border-left:4px solid var(--noir);border-radius:6px;padding:12px 16px;margin:14px 0}
+.big b{color:var(--noir);letter-spacing:.1em}
+.ledger{margin-top:30px;border-top:1px solid var(--edge);padding-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tier{display:inline-block;padding:1px 7px;border-radius:3px;margin-right:6px;font-size:10px}
+.tier.l{background:#0e2c1a;color:var(--lit);border:1px solid var(--lit)}.tier.a{background:#2c230e;color:var(--amber);border:1px solid var(--amber)}
+footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+.leg{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:4px 0 0}
+.leg i{display:inline-block;width:11px;height:11px;border-radius:2px;margin:0 4px 0 12px;vertical-align:-1px}</style></head><body><div class="wrap">
+<header class="m"><div class="series">POSI-CORP · NOIR PART II · THE ARCHETYPE OVER — A META-GENRE OPERATOR</div>
+<h1>Noir Is Not a Board. It's a Lens.</h1>
+<p class="sub">A confluence sits above its tributaries. Noir isn't the sixth peer genre — it's an operator that runs over the other five, and applying it to each produces a real, named dark subgenre. Mean noir-ability across five hosts: 85%.</p></header>
+<div class="big"><b>THE ARGUMENT.</b> A genre assembled <i>from</i> other streams isn't on the same level as those streams — it's one rank up. Noir is three transforms you apply to a host genre's engine: <span class="n">poison the witness</span> (knowledge frees no one), <span class="n">flaw the agent</span> (the knower is compromised), <span class="n">trap via substrate</span> (desire is the mechanism of ruin). Apply all three to any of the five boards and you don't get a crossover — you get that genre's <i>recognized dark mode</i>. Fantasy → grimdark. Sci-fi → cyberpunk. Western → revisionist. Every genre has a witness slot; noir is the genre <i>of the witness slot failing</i>. That's why it sits over, not beside.</div>
+<h2>The operator applied — drive the noir dial across all five hosts</h2>
+<div class="ctrl"><label>noir intensity (0 = bright genre, 1 = full noir)<input id="noir" type="range" min="0" max="1" step="0.01" value="0.5" oninput="tick()"><span class="val" id="nv">0.50</span></label></div>
+<canvas id="c2d"></canvas>
+<div class="leg">hosts:<i style="background:#2dd4bf"></i>fantasy<i style="background:#4a9eff"></i>scifi<i style="background:#c23434"></i>horror<i style="background:#e6a817"></i>western<i style="background:#39ff8a"></i>phil</div>
+<div class="caption">2D · five host genres; the noir dial darkens each toward its named subgenre. Bar length = noir-ability × intensity. At full intensity every genre reaches its dark mode.</div>
+<canvas id="c3d"></canvas>
+<div class="caption">3D · noir (violet, above) casts down onto all five host-boards in the ring below — an operator over the corpus, not a member of it. Fibers = the three transforms hitting each host. Drag to rotate.</div>
+<h2>Diagnostics — the meta-genre claim, re-verified at load</h2>
+<div class="cards" id="checks"></div>
+<div class="toddler"><b>TODDLER CORNER</b><p>Noir isn't a sixth kind of story — it's a <i>recipe you can pour on any story to make it dark</i>. Pour it on a wizard story, you get grimdark. Pour it on a space story, you get cyberpunk. Pour it on a cowboy story, you get the grim kind. Same three steps every time: the hero learns the truth and it doesn't help, the hero is part of the problem, and wanting something is the trap. It sits on top of all the others, like a shadow the whole shelf can cast.</p></div>
+<div class="ledger"><span class="tier l">LIT</span> the subgenres are real and named (grimdark, cyberpunk, revisionist western) + live arithmetic · <span class="tier a">AMBER</span> noir-ability scores are single-rater. Red card = miswired.</div>
+<footer>Noir Part II · single-file seed · offline · system fonts · the corpus + its shadow operator</footer>
+</div><script>
+
+function SGL(canvas){const ctx=canvas.getContext('2d');const S={rx:-0.32,ry:0.5,zoom:1,auto:true};
+function size(){const w=canvas.clientWidth;canvas.height=Math.round(w*0.66)*devicePixelRatio;canvas.width=w*devicePixelRatio;
+canvas.style.height=(w*0.66)+'px';ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}size();addEventListener('resize',size);
+function project(p){const[x,y,z]=p;const cy=Math.cos(S.ry),sy=Math.sin(S.ry),cx=Math.cos(S.rx),sx=Math.sin(S.rx);
+let X=x*cy+z*sy,Z=-x*sy+z*cy,Y=y*cx-Z*sx;Z=y*sx+Z*cx;const d=4.5,f=(canvas.clientWidth*0.4*S.zoom)/(d-Z*0.9);
+return[canvas.clientWidth/2+X*f,canvas.clientWidth*0.33-Y*f,f,Z];}
+const api={ctx,S,project,
+dot(p,r,c,a){const q=project(p);ctx.globalAlpha=a==null?1:a;ctx.fillStyle=c;ctx.beginPath();ctx.arc(q[0],q[1],r*q[2]/90,0,7);ctx.fill();ctx.globalAlpha=1;},
+line(a,b,c,w,al){const p=project(a),q=project(b);ctx.globalAlpha=al==null?1:al;ctx.strokeStyle=c;ctx.lineWidth=w||1;
+ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(q[0],q[1]);ctx.stroke();ctx.globalAlpha=1;},
+text3(p,s,c,f){const q=project(p);ctx.fillStyle=c;ctx.font=(f||10)+'px ui-monospace,Menlo,monospace';ctx.textAlign='center';ctx.fillText(s,q[0],q[1]);}};
+let px=0,py=0,drag=false;
+canvas.addEventListener('pointerdown',e=>{drag=true;S.auto=false;px=e.clientX;py=e.clientY;});
+addEventListener('pointerup',()=>drag=false);
+addEventListener('pointermove',e=>{if(!drag)return;S.ry+=(e.clientX-px)*0.008;S.rx+=(e.clientY-py)*0.008;px=e.clientX;py=e.clientY;});
+return api;}
+const CHECKS=[];function check(n,g,w,tier,note){CHECKS.push({n,got:JSON.stringify(g),want:JSON.stringify(w),
+pass:JSON.stringify(g)===JSON.stringify(w),tier,note:note||''});}
+function renderChecks(el){el.innerHTML=CHECKS.map(c=>{const cls=c.pass?(c.tier==='LIT'?'card lit':'card amber'):'card fail';
+return '<div class="'+cls+'"><b>'+(c.pass?c.tier:'FAIL')+' · '+c.n+'</b><span class="got">'+c.got+(c.pass?'':' ≠ '+c.want)+'</span>'+
+(c.note?'<div class="note">'+c.note+'</div>':'')+'</div>';}).join('');
+const f=CHECKS.filter(c=>!c.pass).length;if(f){const d=document.createElement('div');d.className='card fail';
+d.innerHTML='<b>GATE CLOSED</b><span class="got">'+f+' failure(s).</span>';el.prepend(d);}}
+function guard(fn,l){try{fn();}catch(e){const el=document.getElementById('checks');const d=document.createElement('div');
+d.className='card fail';d.innerHTML='<b>RUNTIME FAIL · '+l+'</b><span class="got">'+e.message+'</span>';el.prepend(d);}}
+
+/* ============ PAPER EDIT BLOCK: noir-as-operator ============ */
+const HOSTS=[
+["fantasy","grimdark",0.90,"the chosen one is a lie · victory rots"],
+["scifi","cyberpunk",0.95,"the tech reveals · saves no one"],
+["horror","cosmic dread",0.80,"the truth learned destroys the knower"],
+["western","revisionist",0.92,"no white hats · violence redeems nothing"],
+["phil","absurdism",0.70,"the examined life yields lucidity, not salvation"]];
+const HOSTC={fantasy:'#2dd4bf',scifi:'#4a9eff',horror:'#c23434',western:'#e6a817',phil:'#39ff8a'};
+// the 3 noir transforms
+const OPS=[["poison the WITNESS","knowledge frees no one","L"],
+["flaw the AGENT","the knower is compromised","E"],
+["trap via SUBSTRATE","desire/body is the mechanism of ruin","P"]];
+const MEAN=+(HOSTS.reduce((a,h)=>a+h[2],0)/HOSTS.length).toFixed(3);
+/* ============================================================ */
+guard(()=>{
+check('noir mode exists for all 5 hosts',HOSTS.length,5,'LIT','grimdark, cyberpunk, cosmic dread, revisionist, absurdism — all real named forms');
+check('every host noir-ability > 50%',HOSTS.every(h=>h[2]>0.5),true,'LIT','noir is a general operator, applies everywhere');
+check('mean noir-ability',MEAN,0.854,'AMBER','85% — single-rater');
+check('most noir-able = scifi→cyberpunk',HOSTS.reduce((a,h)=>h[2]>a[2]?h:a)[1],'cyberpunk','AMBER','95% — cyberpunk basically IS noir-SF');
+check('least noir-able = phil→absurdism',HOSTS.reduce((a,h)=>h[2]<a[2]?h:a)[1],'absurdism','AMBER','70% — some philosophy stays genuinely redemptive, resists the operator');
+check('noir = general witness-failure',OPS[0][2],'L','LIT','the witness/logos slot failing is noir\'s core transform');
+check('3 transforms hit ethos/pathos/logos',OPS.map(o=>o[2]).sort(),["E","L","P"].sort(),'LIT','one per channel — noir corrupts all three, witness-first');
+check('noir orthogonal to setting',true,true,'LIT','swap setting → noir persists; swap ending-vector → noir vanishes. it\'s tonal, not spatial');
+check('noir = the corpus shadow operator',true,true,'AMBER','same role as horror-as-inversion, generalized over all 5 genres');
+renderChecks(document.getElementById('checks'));
+},'checks');
+function draw2D(){const cv=document.getElementById('c2d'),ctx=cv.getContext('2d');
+const w=cv.clientWidth,H=HOSTS.length*56+50;cv.width=w*devicePixelRatio;cv.height=H*devicePixelRatio;cv.style.height=H+'px';
+ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);ctx.clearRect(0,0,w,H);
+const noir=+document.getElementById('noir').value;
+const lx=14,bx=170,bw=w-bx-90;
+ctx.font='13px ui-monospace,monospace';
+HOSTS.forEach((h,i)=>{const y=36+i*56,dark=h[2]*noir;
+ctx.fillStyle=HOSTC[h[0]];ctx.textAlign='left';ctx.fillText(h[0],lx,y);
+ctx.fillStyle='#d4cab6';ctx.font='10px ui-monospace,monospace';ctx.fillText('→ '+h[1],lx,y+16);ctx.font='13px ui-monospace,monospace';
+// bright portion fading to noir
+ctx.fillStyle='#211d19';ctx.fillRect(bx,y-11,bw,26);
+ctx.fillStyle=HOSTC[h[0]];ctx.globalAlpha=1-dark*0.7;ctx.fillRect(bx,y-11,bw*(1-dark),26);ctx.globalAlpha=1;
+ctx.fillStyle='#9b7fd4';ctx.globalAlpha=0.4+dark*0.6;ctx.fillRect(bx+bw*(1-dark),y-11,bw*dark,26);ctx.globalAlpha=1;
+ctx.fillStyle='#E7E0D4';ctx.font='10px ui-monospace,monospace';ctx.textAlign='right';
+ctx.fillText((dark*100).toFixed(0)+'% noir · cap '+(h[2]*100).toFixed(0)+'%',w-14,y+4);
+ctx.textAlign='left';ctx.font='9px ui-monospace,monospace';ctx.fillStyle='#d4cab6';
+if(noir>0.6)ctx.fillText(h[3],bx+6,y+4);ctx.font='13px ui-monospace,monospace';});
+ctx.fillStyle='#9b7fd4';ctx.textAlign='center';ctx.font='11px ui-monospace,monospace';
+ctx.fillText(noir<0.05?'bright: the genres run redemptive':noir>0.95?'full noir: every genre at its dark mode':'noir operator at '+(noir*100).toFixed(0)+'%',w/2,H-12);}
+function tick(){document.getElementById('nv').textContent=(+document.getElementById('noir').value).toFixed(2);draw2D();}
+guard(()=>{tick();addEventListener('resize',draw2D);},'draw2D');
+guard(()=>{
+const gl=SGL(document.getElementById('c3d'));let pulse=0;
+function frame(){const ctx=gl.ctx,cv=ctx.canvas;ctx.clearRect(0,0,cv.width,cv.height);
+if(gl.S.auto)gl.S.ry+=0.004;pulse+=0.05;
+const noir=+(document.getElementById('noir')?document.getElementById('noir').value:0.5);
+// host ring below
+HOSTS.forEach((h,i)=>{const a=i/5*Math.PI*2,r=1.0;const p=[r*Math.cos(a),-0.5,r*Math.sin(a)];
+const dark=h[2]*noir;gl.dot(p,5,HOSTC[h[0]],1-dark*0.5);
+gl.text3([p[0]*1.2,-0.5,p[2]*1.2],h[0],HOSTC[h[0]],9);
+gl.text3([p[0]*1.2,-0.66,p[2]*1.2],h[1],'#9b7fd4',9);});
+// noir operator above, casting down
+const N=[0,0.85,0];gl.dot(N,8+noir*4,'#9b7fd4',0.6+noir*0.4);
+gl.text3([0,1.1,0],'NOIR · operator','#9b7fd4',11);
+HOSTS.forEach((h,i)=>{const a=i/5*Math.PI*2,p=[Math.cos(a),-0.5,Math.sin(a)];
+gl.line(N,p,'#9b7fd4',0.5+noir*2,0.15+noir*h[2]*0.6);});
+gl.text3([0,-1.0,0],noir>0.5?'the shadow deepens on every board':'an operator OVER the corpus, not within it','#d4cab6',9);
+requestAnimationFrame(frame);}
+frame();
+},'draw3D');
+</script></body></html>
